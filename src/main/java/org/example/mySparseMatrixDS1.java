@@ -14,6 +14,7 @@ public class mySparseMatrixDS1 implements GaussianElimination{
     }
 
     public void become(double[][] A){
+        matrix.clear();
         rows = A.length;
         cols = A[0].length;
         for (int i = 0; i < A.length; i++){
@@ -58,11 +59,19 @@ public class mySparseMatrixDS1 implements GaussianElimination{
             setElement(row2, j, temp);
         }
     }
-    public void GENP(double[] b) {
-
+    public double[] GENP(double[] toSolve) {
+        double[] b = toSolve.clone();
+        int N = b.length;
+        // for each column
+        for (int k = 0; k < N; k++){
+            // for each row after current
+            eliminate(b, N, k);
+        }
+        return solve(b, N);
     }
 
-    public double[] GEPP(double[] b) {
+    public double[] GEPP(double[] toSolve) {
+        double[] b = toSolve.clone();
         int N = b.length;
         // for each column
         for (int k = 0; k < N; k++){
@@ -82,21 +91,28 @@ public class mySparseMatrixDS1 implements GaussianElimination{
             b[k] = b[max];
             b[max] = t;
 
-            // pivot within A and B
             // for each row after current
-            for (int i = k + 1; i < N; i++){
-                double factor = getElement(i, k) / getElement(k,k);
-                b[i] -= factor * b[k];
-                // for each column in row
-                for (int j = k; j < N; j++){
-                    setElement(i, j, getElement(i,j) - (factor * getElement(k, j)));
-                }
+            eliminate(b, N, k);
+        }
+        return solve(b, N);
+    }
+
+    private void eliminate(double[] b, int n, int k) {
+        for (int i = k + 1; i < n; i++){
+            double factor = getElement(i, k) / getElement(k,k);
+            b[i] -= factor * b[k];
+            // for each column in row
+            for (int j = k; j < n; j++){
+                setElement(i, j, getElement(i,j) - (factor * getElement(k, j)));
             }
         }
-        double[] solution = new double[N];
-        for (int i = N - 1; i >= 0; i--){
+    }
+
+    private double[] solve(double[] b, int n) {
+        double[] solution = new double[n];
+        for (int i = n - 1; i >= 0; i--){
             double sum = 0.0;
-            for (int j = i + 1; j < N; j++){
+            for (int j = i + 1; j < n; j++){
                 sum += getElement(i,j) * solution[j];
             }
             solution[i] = (b[i] - sum) / getElement(i, i);

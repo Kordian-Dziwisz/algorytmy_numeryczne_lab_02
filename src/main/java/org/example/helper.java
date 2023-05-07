@@ -58,48 +58,19 @@ public class helper {
         }
     }
 
-    public static double[][] generateRandomMatrix(int n, int m, double density) {
-        Random random = new Random();
+    public static double[][] generateRandomBandMatrix(int n, int m, int b) {
         double[][] matrix = new double[n][m];
-
-        // Fill matrix with zeros
+        Random rand = new Random();
+        int valueRange = (int)Math.pow(2, 16); // zakres wartości
         for (int i = 0; i < n; i++) {
             for (int j = 0; j < m; j++) {
-                matrix[i][j] = 0.0;
+                if (Math.abs(i - j) <= b) {
+                    matrix[i][j] = (rand.nextInt(valueRange * 2) - valueRange)/ Math.pow(2, 16);
+                } else {
+                    matrix[i][j] = 0;
+                }
             }
         }
-
-        // Generate random non-zero elements
-        int numNonZeros = (int) Math.round(density * n * m);
-        for (int k = 0; k < numNonZeros; k++) {
-            int i = random.nextInt(n);
-            int j = random.nextInt(m);
-            double value = random.nextDouble();
-            matrix[i][j] = value;
-        }
-
-        return matrix;
-    }
-
-    public static double[][] generateRandomBandMatrix(int n, int bandwidth) {
-        Random random = new Random();
-        double[][] matrix = new double[n][n];
-
-        // Fill matrix with zeros
-        for (int i = 0; i < n; i++) {
-            for (int j = 0; j < n; j++) {
-                matrix[i][j] = 0.0;
-            }
-        }
-
-        // Generate random non-zero elements within bandwidth
-        for (int i = 0; i < n; i++) {
-            for (int j = Math.max(0, i - bandwidth); j <= Math.min(n - 1, i + bandwidth); j++) {
-                double value = random.nextDouble();
-                matrix[i][j] = value;
-            }
-        }
-
         return matrix;
     }
 
