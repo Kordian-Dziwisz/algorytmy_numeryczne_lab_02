@@ -1,0 +1,1 @@
+# algorytmy_numeryczne_lab_02
