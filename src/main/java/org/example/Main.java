@@ -11,7 +11,8 @@ public class Main {
         mySparseMatrixDS2 m2 = new mySparseMatrixDS2();
         m1.become(testMatrix);
         m1.print();
-        double[] b = {0, 0.3, 0, 0, 0, 1, 1, 0, 0.5};
+        double[] X = helper.generateRandomVector(9);
+        double[] b = helper.matrixVectorMultiply(testMatrix, X);
         double[] solution = m1.GEPP(b);
         System.out.println();
         m1.print();

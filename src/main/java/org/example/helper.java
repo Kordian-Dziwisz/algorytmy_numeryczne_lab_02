@@ -74,6 +74,31 @@ public class helper {
         return matrix;
     }
 
+    public static double[] generateRandomVector(int n){
+        double[] v = new double[n];
+        Random rand = new Random();
+
+        for (int i = 0; i < n; i++){
+            v[i] = (rand.nextInt((int)Math.pow(2, 16) * 2) - (int)Math.pow(2, 16))/ Math.pow(2, 16);
+        }
+
+        return v;
+    }
+
+    public static double[] matrixVectorMultiply(double[][] A, double[] X){
+        double[] res = new double[X.length];
+
+        for(int i = 0; i < A.length; i++){
+            double sum = 0;
+            for (int j = 0; j < X.length; j++){
+                sum += A[i][j] * X[j];
+            }
+            res[i] = sum;
+        }
+
+        return res;
+    }
+
     public static void printMatrix(double[][] matrix) {
         for (double[] row : matrix) {
             for (double element : row) {
