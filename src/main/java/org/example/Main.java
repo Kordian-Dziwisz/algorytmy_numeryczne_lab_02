@@ -18,12 +18,109 @@ public class Main {
         allMatrices.GenerateTg(3, 2, 300);
         allMatrices.GenerateSolutionVectors(3, 2, 300);
 
+
+
         var tests = new ArrayList<HypothesisTest>();
-        tests.add(new HypothesisTest("H1_A1_TG_DS1", tries -> {
+        tests.add(new HypothesisTest("H1_A1_diff_A2_TG_DS1", tries -> {
             var results = new HashMap<Integer, Double>();
             for(int i=0; i<tries; i++){
                 double[][] testMatrix = helper.generateMatrix(10,10);
                 var m = new mySparseMatrixDS1();
+                m.become(testMatrix);
+                double[] x = helper.generateRandomVector(10);
+                double[] b = helper.matrixVectorMultiply(testMatrix, x);
+                var solvedX = m.GENP(b);
+                var avgErrGENP = helper.meanError(x, solvedX);
+                m.become(testMatrix);
+                solvedX = m.GEPP(b);
+                var avgErrGEPP = helper.meanError(x, solvedX);
+                var avgErr = avgErrGEPP - avgErrGENP;
+                results.put(i, avgErr);
+            }
+            return results;
+        }));
+
+        tests.add(new HypothesisTest("H1_A1_diff_A2_TG_DS2", tries -> {
+            var results = new HashMap<Integer, Double>();
+            for(int i=0; i<tries; i++){
+                double[][] testMatrix = helper.generateMatrix(10,10);
+                var m = new mySparseMatrixDS2();
+                m.become(testMatrix);
+                double[] x = helper.generateRandomVector(10);
+                double[] b = helper.matrixVectorMultiply(testMatrix, x);
+                var solvedX = m.GENP(b);
+                var avgErrGENP = helper.meanError(x, solvedX);
+                m.become(testMatrix);
+                solvedX = m.GEPP(b);
+                var avgErrGEPP = helper.meanError(x, solvedX);
+                var avgErr = avgErrGEPP - avgErrGENP;
+                results.put(i, avgErr);
+            }
+            return results;
+        }));
+
+        tests.add(new HypothesisTest("H1_A1_diff_A2_TW_DS1", tries -> {
+            var results = new HashMap<Integer, Double>();
+            for(int i=0; i<tries; i++){
+                double[][] testMatrix = helper.generateRandomBandMatrix(10,10, 3);
+                var m = new mySparseMatrixDS1();
+                m.become(testMatrix);
+                double[] x = helper.generateRandomVector(10);
+                double[] b = helper.matrixVectorMultiply(testMatrix, x);
+                var solvedX = m.GENP(b);
+                var avgErrGENP = helper.meanError(x, solvedX);
+                m.become(testMatrix);
+                solvedX = m.GEPP(b);
+                var avgErrGEPP = helper.meanError(x, solvedX);
+                var avgErr = avgErrGEPP - avgErrGENP;
+                results.put(i, avgErr);
+            }
+            return results;
+        }));
+
+        tests.add(new HypothesisTest("H1_A1_diff_A2_TW_DS2", tries -> {
+            var results = new HashMap<Integer, Double>();
+            for(int i=0; i<tries; i++){
+                double[][] testMatrix = helper.generateRandomBandMatrix(10,10, 3);
+                var m = new mySparseMatrixDS2();
+                m.become(testMatrix);
+                double[] x = helper.generateRandomVector(10);
+                double[] b = helper.matrixVectorMultiply(testMatrix, x);
+                var solvedX = m.GENP(b);
+                var avgErrGENP = helper.meanError(x, solvedX);
+                m.become(testMatrix);
+                solvedX = m.GEPP(b);
+                var avgErrGEPP = helper.meanError(x, solvedX);
+                var avgErr = avgErrGEPP - avgErrGENP;
+                results.put(i, avgErr);
+            }
+            return results;
+        }));
+
+        tests.add(new HypothesisTest("H1_A1_diff_A1_TW2_DS1", tries -> {
+            var results = new HashMap<Integer, Double>();
+            for(int i=0; i<tries; i++){
+                double[][] testMatrix = helper.generateSparseBandMatrix(10,10, 3);
+                var m = new mySparseMatrixDS1();
+                m.become(testMatrix);
+                double[] x = helper.generateRandomVector(10);
+                double[] b = helper.matrixVectorMultiply(testMatrix, x);
+                var solvedX = m.GENP(b);
+                var avgErrGENP = helper.meanError(x, solvedX);
+                m.become(testMatrix);
+                solvedX = m.GEPP(b);
+                var avgErrGEPP = helper.meanError(x, solvedX);
+                var avgErr = avgErrGEPP - avgErrGENP;
+                results.put(i, avgErr);
+            }
+            return results;
+        }));
+
+        tests.add(new HypothesisTest("H1_A1_diff_A1_TW2_DS2", tries -> {
+            var results = new HashMap<Integer, Double>();
+            for(int i=0; i<tries; i++){
+                double[][] testMatrix = helper.generateSparseBandMatrix(10,10, 3);
+                var m = new mySparseMatrixDS2();
                 m.become(testMatrix);
                 double[] x = helper.generateRandomVector(10);
                 double[] b = helper.matrixVectorMultiply(testMatrix, x);
