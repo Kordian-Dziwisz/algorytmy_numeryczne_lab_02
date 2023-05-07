@@ -4,6 +4,7 @@ import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.util.Arrays;
 import java.util.Random;
 
 public class helper {
@@ -159,6 +160,21 @@ public class helper {
                 arr[i][j] = matrix.getElement(i, j);
             }
         }
+
         return arr;
+    }
+
+    public static double meanError(double[] X, double[] solvedX){
+        double[] errors = new double[X.length];
+        for (int i = 0; i < X.length; i++){
+            errors[i] = Math.abs(X[i] - solvedX[i]);
+        }
+        Arrays.sort(errors);
+        double meanError = 0.0;
+        for (int i = errors.length - 1; i >= 0; i--){
+            meanError += errors[i];
+        }
+        meanError = meanError / errors.length;
+        return meanError;
     }
 }
