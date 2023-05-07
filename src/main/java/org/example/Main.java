@@ -1,5 +1,9 @@
 package org.example;
 
+import org.json.JSONObject;
+
+import java.io.FileWriter;
+import java.io.IOException;
 import java.util.*;
 import java.util.function.Function;
 
@@ -18,21 +22,35 @@ public class Main {
         tests.add(new HypothesisTest("H1_A1_TG_DS1", tries -> {
             var results = new HashMap<Integer, Double>();
             for(int i=0; i<tries; i++){
-                double[][] testMatrix = allMatrices.getTgMatrix(i);
+                double[][] testMatrix = helper.generateMatrix(10,10);
                 var m = new mySparseMatrixDS1();
                 m.become(testMatrix);
-                double[] x = allMatrices.getSolutionVector(i);
+                double[] x = helper.generateRandomVector(10);
                 double[] b = helper.matrixVectorMultiply(testMatrix, x);
                 var solvedX = m.GENP(b);
-                var avgErr = helper.meanError(x, solvedX);
+                var avgErrGENP = helper.meanError(x, solvedX);
+                m.become(testMatrix);
+                solvedX = m.GEPP(b);
+                var avgErrGEPP = helper.meanError(x, solvedX);
+                var avgErr = avgErrGEPP - avgErrGENP;
                 results.put(i, avgErr);
             }
             return results;
         }));
 
+
         var tester = new HypothesisTester(tests);
-        var results = tester.doTests(allMatrices.solutionVectors.size());
-        createHistogram(results.get("H1_A1_TG_DS1").values());
+        var results = tester.doTests(1000);
+        var json = new JSONObject(results);
+        try {
+            FileWriter writer = new FileWriter("results.json");
+            writer.write(json.toString());
+            writer.close();
+            System.out.println("Successfully wrote to file " + "results.json");
+        } catch (IOException e) {
+            System.out.println("An error occurred.");
+            e.printStackTrace();
+        }
     }
     private static void createHistogram(Collection<Double> values) {
         // Loop through the frequency array and print the histogram
