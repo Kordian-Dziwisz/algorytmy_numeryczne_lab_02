@@ -1,6 +1,9 @@
 package org.example;
 
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashMap;
+import java.util.function.Function;
 
 public class Main {
     public static void main(String[] args) {
@@ -28,5 +31,15 @@ public class Main {
         m2.print();
         System.out.println();
         System.out.println(Arrays.toString(solution));
+
+        var tests = new ArrayList<HypothesisTest>();
+        tests.add(new HypothesisTest("H1_A1_TG_DS1", tries -> {
+            var m = new mySparseMatrixDS1();
+            m.become(helper.generateMatrix(10, 10));
+            m.print();
+            return new HashMap<Integer, Double>();
+        }));
+
+        var tester = new HypothesisTester(tests);
     }
 }
