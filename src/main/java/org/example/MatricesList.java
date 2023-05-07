@@ -17,16 +17,16 @@ public class MatricesList {
     }
 
     public void GenerateTw(int initialSize, int step, int maxSize, int bandSize){
-        TgMatrices.clear();
+        TwMatrices.clear();
         for (int i = initialSize; i <= maxSize; i += step){
-            TgMatrices.add(helper.generateRandomBandMatrix(i, i, bandSize));
+            TwMatrices.add(helper.generateRandomBandMatrix(i, i, bandSize));
         }
     }
 
     public void GenerateTwSparse(int initialSize, int step, int maxSize, int bandSize){
-        TgMatrices.clear();
+        TwSparseMatrices.clear();
         for (int i = initialSize; i <= maxSize; i += step){
-            TgMatrices.add(helper.generateSparseBandMatrix(i, i, bandSize));
+            TwSparseMatrices.add(helper.generateSparseBandMatrix(i, i, bandSize));
         }
     }
 
