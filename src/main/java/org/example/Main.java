@@ -7,6 +7,9 @@ import java.io.IOException;
 import java.util.*;
 import java.util.function.Function;
 
+import org.apache.commons.math3.linear.Array2DRowRealMatrix;
+import org.apache.commons.math3.linear.RealMatrix;
+
 public class Main {
 
     public static void main(String[] args) {
@@ -17,6 +20,8 @@ public class Main {
         MatricesList allMatrices = new MatricesList();
         allMatrices.GenerateTg(3, 2, 300);
         allMatrices.GenerateSolutionVectors(3, 2, 300);
+        allMatrices.GenerateTw(3, 2, 300, 1);
+        allMatrices.GenerateTwSparse(3, 2, 300, 1);
 
 
 
