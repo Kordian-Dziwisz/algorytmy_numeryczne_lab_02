@@ -6,17 +6,19 @@ import java.util.function.Function;
 public class Main {
     public static void main(String[] args) {
 
-        double[][] testMatrix = helper.generateRandomBandMatrix(9, 9, 1);
+//        double[][] testMatrix = helper.generateRandomBandMatrix(9, 9, 1);
 //        helper.printMatrix(testMatrix);
 
         var tests = new ArrayList<HypothesisTest>();
         tests.add(new HypothesisTest("H1_A1_TG_DS1", tries -> {
             var results = new HashMap<Integer, Double>();
             for(int i=0; i<tries; i++){
+                double[][] testMatrix = helper.generateMatrix(10,10);
                 var m = new mySparseMatrixDS1();
-                m.become(helper.generateMatrix(10, 10));
-                double[] x = helper.generateRandomVector(9);
-                var solvedX = m.GENP(x);
+                m.become(testMatrix);
+                double[] x = helper.generateRandomVector(10);
+                double[] b = helper.matrixVectorMultiply(testMatrix, x);
+                var solvedX = m.GENP(b);
                 var avgErr = helper.meanError(x, solvedX);
                 results.put(i, avgErr);
             }
