@@ -99,6 +99,38 @@ public class helper {
         return res;
     }
 
+    public static double[][] generateMatrix(int n, int m){
+        double[][] matrix = new double[n][m];
+        Random rand = new Random();
+        int valueRange = (int)Math.pow(2, 16); // zakres wartości
+        for (int i = 0; i < n; i++) {
+            for (int j = 0; j < m; j++) {
+                matrix[i][j] = (rand.nextInt(valueRange * 2) - valueRange)/ Math.pow(2, 16);
+            }
+        }
+        return matrix;
+    }
+
+    public static double[][] generateSparseBandMatrix(int n, int m, int b){
+        double[][] matrix = new double[n][m];
+        Random rand = new Random();
+        int valueRange = (int)Math.pow(2, 16); // zakres wartości
+        for (int i = 0; i < n; i++) {
+            for (int j = 0; j < m; j++) {
+                if (Math.abs(i - j) <= b) {
+                    matrix[i][j] = (rand.nextInt(valueRange * 2) - valueRange)/ Math.pow(2, 16);
+                } else {
+                    if(rand.nextInt(2)==1){
+                        matrix[i][j] = (rand.nextInt(valueRange * 2) - valueRange)/ Math.pow(2, 16);
+                    } else {
+                        matrix[i][j] = 0;
+                    }
+                }
+            }
+        }
+        return matrix;
+    }
+
     public static void printMatrix(double[][] matrix) {
         for (double[] row : matrix) {
             for (double element : row) {
