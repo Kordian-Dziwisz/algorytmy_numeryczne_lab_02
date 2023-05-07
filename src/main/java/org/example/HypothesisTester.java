@@ -7,6 +7,7 @@ import java.util.Map;
 public class HypothesisTester {
     private ArrayList<HypothesisTest> tests;
     public HypothesisTester(ArrayList<HypothesisTest> tests){
+        this.tests = tests;
     }
 
     public HashMap<String, Map<Integer, Double>> doTests(Integer tries){
