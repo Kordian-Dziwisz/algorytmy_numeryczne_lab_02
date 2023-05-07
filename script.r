@@ -5,6 +5,6 @@ results <- fromJSON("results.json")
 
 # Extract the values from the inner dictionaries
 
-for (result in results) {
-    hist(unlist(result))
+for (name in names(results)) {
+    hist(unlist(results[[name]]), main=name)
 }
