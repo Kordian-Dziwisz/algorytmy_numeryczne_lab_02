@@ -123,7 +123,7 @@ public class helper {
                 if (Math.abs(i - j) <= b) {
                     matrix[i][j] = (rand.nextInt(valueRange * 2) - valueRange)/ Math.pow(2, 16);
                 } else {
-                    if(rand.nextInt(2)==1){
+                    if(rand.nextInt(n)==1){
                         matrix[i][j] = (rand.nextInt(valueRange * 2) - valueRange)/ Math.pow(2, 16);
                     } else {
                         matrix[i][j] = 0;
