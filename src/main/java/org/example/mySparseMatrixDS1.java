@@ -119,4 +119,12 @@ public class mySparseMatrixDS1 implements GaussianElimination{
         }
         return solution;
     }
+
+    public int getRows(){
+        return rows;
+    }
+
+    public int getCols(){
+        return cols;
+    }
 }

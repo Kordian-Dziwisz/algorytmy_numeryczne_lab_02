@@ -141,4 +141,24 @@ public class helper {
             System.out.println();
         }
     }
+
+    public static double[][] sparseToArray(mySparseMatrixDS1 matrix){
+        double[][] arr = new double[matrix.getRows()][matrix.getCols()];
+        for (int i = 0; i < matrix.getRows(); i++){
+            for (int j = 0; j < matrix.getCols(); j++){
+                arr[i][j] = matrix.getElement(i, j);
+            }
+        }
+        return arr;
+    }
+
+    public static double[][] sparseToArray(mySparseMatrixDS2 matrix){
+        double[][] arr = new double[matrix.getRows()][matrix.getCols()];
+        for (int i = 0; i < matrix.getRows(); i++){
+            for (int j = 0; j < matrix.getCols(); j++){
+                arr[i][j] = matrix.getElement(i, j);
+            }
+        }
+        return arr;
+    }
 }
