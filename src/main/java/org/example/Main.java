@@ -18,6 +18,7 @@ public class Main {
         m1.print();
         System.out.println();
         System.out.println(Arrays.toString(solution));
+        System.out.println(Arrays.toString(X));
         System.out.println("\n\n");
 
         m2.become(testMatrix);

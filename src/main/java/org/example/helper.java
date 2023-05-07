@@ -7,6 +7,8 @@ import java.io.IOException;
 import java.util.Random;
 
 public class helper {
+
+    private static final Random rand = new Random(123);
     public static double[][] readMatrixFromCsv(String filename) {
         try {
             BufferedReader br = new BufferedReader(new FileReader(filename));
@@ -60,7 +62,7 @@ public class helper {
 
     public static double[][] generateRandomBandMatrix(int n, int m, int b) {
         double[][] matrix = new double[n][m];
-        Random rand = new Random();
+        
         int valueRange = (int)Math.pow(2, 16); // zakres wartości
         for (int i = 0; i < n; i++) {
             for (int j = 0; j < m; j++) {
@@ -76,7 +78,7 @@ public class helper {
 
     public static double[] generateRandomVector(int n){
         double[] v = new double[n];
-        Random rand = new Random();
+        
 
         for (int i = 0; i < n; i++){
             v[i] = (rand.nextInt((int)Math.pow(2, 16) * 2) - (int)Math.pow(2, 16))/ Math.pow(2, 16);
@@ -101,7 +103,7 @@ public class helper {
 
     public static double[][] generateMatrix(int n, int m){
         double[][] matrix = new double[n][m];
-        Random rand = new Random();
+        
         int valueRange = (int)Math.pow(2, 16); // zakres wartości
         for (int i = 0; i < n; i++) {
             for (int j = 0; j < m; j++) {
@@ -113,7 +115,7 @@ public class helper {
 
     public static double[][] generateSparseBandMatrix(int n, int m, int b){
         double[][] matrix = new double[n][m];
-        Random rand = new Random();
+        
         int valueRange = (int)Math.pow(2, 16); // zakres wartości
         for (int i = 0; i < n; i++) {
             for (int j = 0; j < m; j++) {
