@@ -5,7 +5,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class HypothesisTester {
-    private ArrayList<HypothesisTest> tests;
+    public ArrayList<HypothesisTest> tests;
     public HypothesisTester(ArrayList<HypothesisTest> tests){
         this.tests = tests;
     }

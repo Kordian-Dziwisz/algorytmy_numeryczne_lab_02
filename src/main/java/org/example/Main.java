@@ -1,14 +1,12 @@
 package org.example;
 
+import org.apache.commons.math3.linear.*;
 import org.json.JSONObject;
 
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.*;
 import java.util.function.Function;
-
-import org.apache.commons.math3.linear.Array2DRowRealMatrix;
-import org.apache.commons.math3.linear.RealMatrix;
 
 public class Main {
 
@@ -25,8 +23,8 @@ public class Main {
 
 
 
-        var tests = new ArrayList<HypothesisTest>();
-        tests.add(new HypothesisTest("H1_A1_diff_A2_TG_DS1", tries -> {
+        var tests1 = new ArrayList<HypothesisTest>();
+        tests1.add(new HypothesisTest("H1_A1_diff_A2_TG_DS1", tries -> {
             var results = new HashMap<Integer, Double>();
             for(int i=0; i<tries; i++){
                 double[][] testMatrix = helper.generateMatrix(10,10);
@@ -45,7 +43,7 @@ public class Main {
             return results;
         }));
 
-        tests.add(new HypothesisTest("H1_A1_diff_A2_TG_DS2", tries -> {
+        tests1.add(new HypothesisTest("H1_A1_diff_A2_TG_DS2", tries -> {
             var results = new HashMap<Integer, Double>();
             for(int i=0; i<tries; i++){
                 double[][] testMatrix = helper.generateMatrix(10,10);
@@ -64,7 +62,7 @@ public class Main {
             return results;
         }));
 
-        tests.add(new HypothesisTest("H1_A1_diff_A2_TW_DS1", tries -> {
+        tests1.add(new HypothesisTest("H1_A1_diff_A2_TW_DS1", tries -> {
             var results = new HashMap<Integer, Double>();
             for(int i=0; i<tries; i++){
                 double[][] testMatrix = helper.generateRandomBandMatrix(10,10, 3);
@@ -83,7 +81,7 @@ public class Main {
             return results;
         }));
 
-        tests.add(new HypothesisTest("H1_A1_diff_A2_TW_DS2", tries -> {
+        tests1.add(new HypothesisTest("H1_A1_diff_A2_TW_DS2", tries -> {
             var results = new HashMap<Integer, Double>();
             for(int i=0; i<tries; i++){
                 double[][] testMatrix = helper.generateRandomBandMatrix(10,10, 3);
@@ -102,7 +100,7 @@ public class Main {
             return results;
         }));
 
-        tests.add(new HypothesisTest("H1_A1_diff_A1_TW2_DS1", tries -> {
+        tests1.add(new HypothesisTest("H1_A1_diff_A1_TW2_DS1", tries -> {
             var results = new HashMap<Integer, Double>();
             for(int i=0; i<tries; i++){
                 double[][] testMatrix = helper.generateSparseBandMatrix(10,10, 3);
@@ -121,7 +119,7 @@ public class Main {
             return results;
         }));
 
-        tests.add(new HypothesisTest("H1_A1_diff_A1_TW2_DS2", tries -> {
+        tests1.add(new HypothesisTest("H1_A1_diff_A1_TW2_DS2", tries -> {
             var results = new HashMap<Integer, Double>();
             for(int i=0; i<tries; i++){
                 double[][] testMatrix = helper.generateSparseBandMatrix(10,10, 3);
@@ -140,7 +138,8 @@ public class Main {
             return results;
         }));
 
-        tests.add(new HypothesisTest("H2_A1_TG_DS1_10", tries -> {
+        var tests2 = new ArrayList<HypothesisTest>();
+        tests2.add(new HypothesisTest("H2_A1_TG_DS1_10", tries -> {
             var results = new HashMap<Integer, Double>();
             for(int i=0; i<tries; i++){
                 double[][] testMatrix = helper.generateMatrix(10,10);
@@ -155,7 +154,7 @@ public class Main {
             return results;
         }));
 
-        tests.add(new HypothesisTest("H2_A1_TG_DS1_20", tries -> {
+        tests2.add(new HypothesisTest("H2_A1_TG_DS1_20", tries -> {
             var results = new HashMap<Integer, Double>();
             for(int i=0; i<tries; i++){
                 double[][] testMatrix = helper.generateMatrix(20,20);
@@ -170,7 +169,7 @@ public class Main {
             return results;
         }));
 
-        tests.add(new HypothesisTest("H2_A1_TG_DS1_40", tries -> {
+        tests2.add(new HypothesisTest("H2_A1_TG_DS1_40", tries -> {
             var results = new HashMap<Integer, Double>();
             for(int i=0; i<tries; i++){
                 double[][] testMatrix = helper.generateMatrix(40,40);
@@ -185,7 +184,7 @@ public class Main {
             return results;
         }));
 
-        tests.add(new HypothesisTest("H2_A1_TG_DS1_80", tries -> {
+        tests2.add(new HypothesisTest("H2_A1_TG_DS1_80", tries -> {
             var results = new HashMap<Integer, Double>();
             for(int i=0; i<tries; i++){
                 double[][] testMatrix = helper.generateMatrix(80,80);
@@ -200,35 +199,145 @@ public class Main {
             return results;
         }));
 
+        var tests3 = new ArrayList<HypothesisTest>();
+        tests3.add(new HypothesisTest("H3_A2_TG_DS1", tries -> {
+            var results = new HashMap<Integer, Double>();
+            for(int i=0; i<tries; i++){
+                double[][] testMatrix = allMatrices.getTgMatrix(i);
+                var m = new mySparseMatrixDS1();
+                m.become(testMatrix);
+                double[] x = allMatrices.getSolutionVector(i);
+                double[] b = helper.matrixVectorMultiply(testMatrix, x);
+                long startTime = System.nanoTime();
+                var solvedX = m.GENP(b);
+                long endTime = System.nanoTime();
+                double duration = (endTime - startTime)/ 1000000000.0;
+                results.put(i, duration);
+            }
+            return results;
+        }));
+//
+        tests3.add(new HypothesisTest("H3_A2_TW_DS1", tries -> {
+            var results = new HashMap<Integer, Double>();
+            for(int i=0; i<tries; i++){
+                double[][] testMatrix = allMatrices.getTwMatrix(i);
+                var m = new mySparseMatrixDS1();
+                m.become(testMatrix);
+                double[] x = allMatrices.getSolutionVector(i);
+                double[] b = helper.matrixVectorMultiply(testMatrix, x);
+                long startTime = System.nanoTime();
+                var solvedX = m.GENP(b);
+                long endTime = System.nanoTime();
+                double duration = (endTime - startTime)/ 1000000000.0;
+                results.put(i, duration);
+            }
+            return results;
+        }));
+
+        tests3.add(new HypothesisTest("H3_A2_TW2_DS1", tries -> {
+            var results = new HashMap<Integer, Double>();
+            for(int i=0; i<tries; i++){
+                double[][] testMatrix = allMatrices.getTwSparseMatrix(i);
+                var m = new mySparseMatrixDS1();
+                m.become(testMatrix);
+                double[] x = allMatrices.getSolutionVector(i);
+                double[] b = helper.matrixVectorMultiply(testMatrix, x);
+                long startTime = System.nanoTime();
+                var solvedX = m.GENP(b);
+                long endTime = System.nanoTime();
+                double duration = (endTime - startTime)/ 1000000000.0;
+                results.put(i, duration);
+            }
+            return results;
+        }));
+
+        tests3.add(new HypothesisTest("H3_TW_OTHER", tries -> {
+            var results = new HashMap<Integer, Double>();
+            for(int i=0; i<tries; i++){
+                double[][] testMatrix = allMatrices.getTwMatrix(i);
+                RealMatrix m = new Array2DRowRealMatrix(testMatrix);
+                RealVector b = new ArrayRealVector(helper.matrixVectorMultiply(testMatrix, allMatrices.getSolutionVector(i)));
+                long startTime = System.nanoTime();
+                DecompositionSolver solver = new LUDecomposition(m).getSolver();
+                RealVector solution = solver.solve(b);
+                long endTime = System.nanoTime();
+                double duration = (endTime - startTime)/ 1000000000.0;
+                results.put(i, duration);
+            }
+            return results;
+        }));
+
+        tests3.add(new HypothesisTest("H3_TW2_OTHER", tries -> {
+            var results = new HashMap<Integer, Double>();
+            for(int i=0; i<tries; i++){
+                double[][] testMatrix = allMatrices.getTwSparseMatrix(i);
+                RealMatrix m = new Array2DRowRealMatrix(testMatrix);
+                RealVector b = new ArrayRealVector(helper.matrixVectorMultiply(testMatrix, allMatrices.getSolutionVector(i)));
+                long startTime = System.nanoTime();
+                DecompositionSolver solver = new LUDecomposition(m).getSolver();
+                RealVector solution = solver.solve(b);
+                long endTime = System.nanoTime();
+                double duration = (endTime - startTime)/ 1000000000.0;
+                results.put(i, duration);
+            }
+            return results;
+        }));
+
+        tests3.add(new HypothesisTest("H3_TG_OTHER", tries -> {
+            var results = new HashMap<Integer, Double>();
+            for(int i=0; i<tries; i++){
+                double[][] testMatrix = allMatrices.getTgMatrix(i);
+                RealMatrix m = new Array2DRowRealMatrix(testMatrix);
+                RealVector b = new ArrayRealVector(helper.matrixVectorMultiply(testMatrix, allMatrices.getSolutionVector(i)));
+                long startTime = System.nanoTime();
+                DecompositionSolver solver = new LUDecomposition(m).getSolver();
+                RealVector solution = solver.solve(b);
+                long endTime = System.nanoTime();
+                double duration = (endTime - startTime)/ 1000000000.0;
+                results.put(i, duration);
+            }
+            return results;
+        }));
 
 
-
-        var tester = new HypothesisTester(tests);
+        var tester = new HypothesisTester(tests1);
         var results = tester.doTests(1000);
+
         var json = new JSONObject(results);
         try {
-            FileWriter writer = new FileWriter("results.json");
+            FileWriter writer = new FileWriter("results1.json");
             writer.write(json.toString());
             writer.close();
-            System.out.println("Successfully wrote to file " + "results.json");
+            System.out.println("Successfully wrote to file " + "results1.json");
         } catch (IOException e) {
             System.out.println("An error occurred.");
             e.printStackTrace();
         }
-    }
-    private static void createHistogram(Collection<Double> values) {
-        // Loop through the frequency array and print the histogram
-        for (int i = 0; i < Collections.max(values); i++) {
-            System.out.print(i + "-" + (i+1) + ": ");
 
-            // Print "*" for each occurrence of the element
-            for(var value : values){
-                if(value >= i && value < i+1 ){
-                    System.out.print("*");
-                }
-            }
+        tester.tests = tests2;
+        results = tester.doTests(10);
+        json = new JSONObject(results);
+        try {
+            FileWriter writer = new FileWriter("results2.json");
+            writer.write(json.toString());
+            writer.close();
+            System.out.println("Successfully wrote to file " + "results2.json");
+        } catch (IOException e) {
+            System.out.println("An error occurred.");
+            e.printStackTrace();
+        }
 
-            System.out.println(); // Move to the next line for the next element
+        tester.tests = tests3;
+        results = tester.doTests(allMatrices.solutionVectors.size());
+        json = new JSONObject(results);
+        try {
+            FileWriter writer = new FileWriter("results3.json");
+            writer.write(json.toString());
+            writer.close();
+            System.out.println("Successfully wrote to file " + "results3.json");
+        } catch (IOException e) {
+            System.out.println("An error occurred.");
+            e.printStackTrace();
         }
     }
 }
