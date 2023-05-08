@@ -134,6 +134,23 @@ public class helper {
         return matrix;
     }
 
+    public static double[][] generateNonZero(int n, int m, int b, int nonZero){
+        double [][] matrix = new double[n][m];
+        int valueRange = (int)Math.pow(2, 16); // zakres wartości
+
+        for (int i = 0; i < n; i++){
+            double[] row = matrix[i];
+            int nonZeroCount = 0;
+            while (nonZeroCount < nonZero){
+                int col = rand.nextInt(m);
+                if(row[col] == 0){
+                    row[col] = (rand.nextInt(valueRange * 2) - valueRange)/ Math.pow(2, 16);
+                    nonZeroCount++;
+                }
+            }
+        }
+        return matrix;
+    }
     public static void printMatrix(double[][] matrix) {
         for (double[] row : matrix) {
             for (double element : row) {
