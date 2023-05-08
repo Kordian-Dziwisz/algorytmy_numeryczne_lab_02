@@ -1,5 +1,6 @@
 package org.example;
 
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 
 public class MatricesList {
@@ -8,7 +9,25 @@ public class MatricesList {
     public ArrayList<double[][]> TwMatrices = new ArrayList<double[][]>();
     public ArrayList<double[][]> TwSparseMatrices = new ArrayList<double[][]>();
 
+    public ArrayList<double[][]> ConstantMatrices = new ArrayList<double[][]>();
+
+    public ArrayList<double[][]> ConstantBandMatrices = new ArrayList<double[][]>();
+
     public ArrayList<double[]> solutionVectors= new ArrayList<double[]>();
+
+    public void GenerateConstant(int initialSize, int step, int maxSize, int numNonZero){
+        ConstantMatrices.clear();
+        for (int i = initialSize; i<= maxSize; i += step){
+            ConstantMatrices.add(helper.generateNonZero(i, i, numNonZero));
+        }
+    }
+
+    public void GenerateConstantBand(int initialSize, int step, int maxSize, int numNonZero){
+        ConstantMatrices.clear();
+        for (int i = initialSize; i<= maxSize; i += step){
+            ConstantMatrices.add(helper.generateNonZeroBand(i, i, numNonZero));
+        }
+    }
     public void GenerateTg(int initialSize, int step, int maxSize){
         TgMatrices.clear();
         for (int i = initialSize; i <= maxSize; i += step){
@@ -40,9 +59,7 @@ public class MatricesList {
         return TgMatrices.get(index);
     }
 
-    public double[][] getTwMatrix(int index){
-        return TwMatrices.get(index);
-    }
+    public double[][] getTwMatrix(int index){ return TwMatrices.get(index); }
 
     public double[][] getTwSparseMatrix(int index){
         return TwSparseMatrices.get(index);
@@ -51,4 +68,9 @@ public class MatricesList {
     public double[] getSolutionVector(int index){
         return solutionVectors.get(index);
     }
+
+    public double[][] getConstantMatrix(int index) { return ConstantMatrices.get(index); }
+
+    public double[][] getConstantBandMatrix(int index) { return ConstantBandMatrices.get(index); }
+
 }

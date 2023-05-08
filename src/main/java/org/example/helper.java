@@ -63,7 +63,7 @@ public class helper {
 
     public static double[][] generateRandomBandMatrix(int n, int m, int b) {
         double[][] matrix = new double[n][m];
-        
+
         int valueRange = (int)Math.pow(2, 16); // zakres wartości
         for (int i = 0; i < n; i++) {
             for (int j = 0; j < m; j++) {
@@ -79,7 +79,7 @@ public class helper {
 
     public static double[] generateRandomVector(int n){
         double[] v = new double[n];
-        
+
 
         for (int i = 0; i < n; i++){
             v[i] = (rand.nextInt((int)Math.pow(2, 16) * 2) - (int)Math.pow(2, 16))/ Math.pow(2, 16);
@@ -104,7 +104,7 @@ public class helper {
 
     public static double[][] generateMatrix(int n, int m){
         double[][] matrix = new double[n][m];
-        
+
         int valueRange = (int)Math.pow(2, 16); // zakres wartości
         for (int i = 0; i < n; i++) {
             for (int j = 0; j < m; j++) {
@@ -116,7 +116,7 @@ public class helper {
 
     public static double[][] generateSparseBandMatrix(int n, int m, int b){
         double[][] matrix = new double[n][m];
-        
+
         int valueRange = (int)Math.pow(2, 16); // zakres wartości
         for (int i = 0; i < n; i++) {
             for (int j = 0; j < m; j++) {
@@ -134,13 +134,34 @@ public class helper {
         return matrix;
     }
 
-    public static double[][] generateNonZero(int n, int m, int b, int nonZero){
+    public static double[][] generateNonZero(int n, int m, int nonZero){
         double [][] matrix = new double[n][m];
         int valueRange = (int)Math.pow(2, 16); // zakres wartości
 
         for (int i = 0; i < n; i++){
             double[] row = matrix[i];
             int nonZeroCount = 0;
+            while (nonZeroCount < nonZero){
+                int col = rand.nextInt(m);
+                if(row[col] == 0){
+                    row[col] = (rand.nextInt(valueRange * 2) - valueRange)/ Math.pow(2, 16);
+                    nonZeroCount++;
+                }
+            }
+        }
+        return matrix;
+    }
+
+    public static double[][] generateNonZeroBand(int n, int m, int nonZero){
+        double [][] matrix = helper.generateRandomBandMatrix(n, m, 2);
+        int valueRange = (int)Math.pow(2, 16); // zakres wartości
+
+        for (int i = 0; i < n; i++){
+            double[] row = matrix[i];
+            int nonZeroCount = 3;
+            if (i == 0 || i == n-1){
+                nonZeroCount = 2;
+            }
             while (nonZeroCount < nonZero){
                 int col = rand.nextInt(m);
                 if(row[col] == 0){
