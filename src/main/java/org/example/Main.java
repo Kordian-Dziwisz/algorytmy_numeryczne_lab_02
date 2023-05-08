@@ -299,6 +299,106 @@ public class Main {
             return results;
         }));
 
+        var tests4 = new ArrayList<HypothesisTest>();
+        tests4.add(new HypothesisTest("H4_TC_OTHER", tries -> {
+            var results = new HashMap<Integer, Double>();
+            for(int i=0; i<tries; i++){
+                double[][] testMatrix = allMatrices.getConstantMatrix(i);
+                RealMatrix m = new Array2DRowRealMatrix(testMatrix);
+                RealVector b = new ArrayRealVector(helper.matrixVectorMultiply(testMatrix, allMatrices.getSolutionVector(i)));
+                long startTime = System.nanoTime();
+                DecompositionSolver solver = new LUDecomposition(m).getSolver();
+                RealVector solution = solver.solve(b);
+                long endTime = System.nanoTime();
+                double duration = (endTime - startTime)/ 1000000000.0;
+                results.put(testMatrix.length, duration);
+            }
+            return results;
+        }));
+
+        tests4.add(new HypothesisTest("H4_TW_OTHER", tries -> {
+            var results = new HashMap<Integer, Double>();
+            for(int i=0; i<tries; i++){
+                double[][] testMatrix = allMatrices.getConstantBandMatrix(i);
+                RealMatrix m = new Array2DRowRealMatrix(testMatrix);
+                RealVector b = new ArrayRealVector(helper.matrixVectorMultiply(testMatrix, allMatrices.getSolutionVector(i)));
+                long startTime = System.nanoTime();
+                DecompositionSolver solver = new LUDecomposition(m).getSolver();
+                RealVector solution = solver.solve(b);
+                long endTime = System.nanoTime();
+                double duration = (endTime - startTime)/ 1000000000.0;
+                results.put(testMatrix.length, duration);
+            }
+            return results;
+        }));
+
+        tests4.add(new HypothesisTest("H4_TG_OTHER", tries -> {
+            var results = new HashMap<Integer, Double>();
+            for(int i=0; i<tries; i++){
+                double[][] testMatrix = allMatrices.getTgMatrix(i);
+                RealMatrix m = new Array2DRowRealMatrix(testMatrix);
+                RealVector b = new ArrayRealVector(helper.matrixVectorMultiply(testMatrix, allMatrices.getSolutionVector(i)));
+                long startTime = System.nanoTime();
+                DecompositionSolver solver = new LUDecomposition(m).getSolver();
+                RealVector solution = solver.solve(b);
+                long endTime = System.nanoTime();
+                double duration = (endTime - startTime)/ 1000000000.0;
+                results.put(testMatrix.length, duration);
+            }
+            return results;
+        }));
+
+        tests4.add(new HypothesisTest("H4_A2_TG_DS1", tries -> {
+            var results = new HashMap<Integer, Double>();
+            for(int i=0; i<tries; i++){
+                double[][] testMatrix = allMatrices.getTgMatrix(i);
+                var m = new mySparseMatrixDS1();
+                m.become(testMatrix);
+                double[] x = allMatrices.getSolutionVector(i);
+                double[] b = helper.matrixVectorMultiply(testMatrix, x);
+                long startTime = System.nanoTime();
+                var solvedX = m.GENP(b);
+                long endTime = System.nanoTime();
+                double duration = (endTime - startTime)/ 1000000000.0;
+                results.put(b.length, duration);
+            }
+            return results;
+        }));
+
+        tests4.add(new HypothesisTest("H4_A2_TW_DS1", tries -> {
+            var results = new HashMap<Integer, Double>();
+            for(int i=0; i<tries; i++){
+                double[][] testMatrix = allMatrices.getConstantBandMatrix(i);
+                var m = new mySparseMatrixDS1();
+                m.become(testMatrix);
+                double[] x = allMatrices.getSolutionVector(i);
+                double[] b = helper.matrixVectorMultiply(testMatrix, x);
+                long startTime = System.nanoTime();
+                var solvedX = m.GENP(b);
+                long endTime = System.nanoTime();
+                double duration = (endTime - startTime)/ 1000000000.0;
+                results.put(b.length, duration);
+            }
+            return results;
+        }));
+
+        tests4.add(new HypothesisTest("H4_A2_TC_DS1", tries -> {
+            var results = new HashMap<Integer, Double>();
+            for(int i=0; i<tries; i++){
+                double[][] testMatrix = allMatrices.getConstantMatrix(i);
+                var m = new mySparseMatrixDS1();
+                m.become(testMatrix);
+                double[] x = allMatrices.getSolutionVector(i);
+                double[] b = helper.matrixVectorMultiply(testMatrix, x);
+                long startTime = System.nanoTime();
+                var solvedX = m.GENP(b);
+                long endTime = System.nanoTime();
+                double duration = (endTime - startTime)/ 1000000000.0;
+                results.put(b.length, duration);
+            }
+            return results;
+        }));
+
 
         var tester = new HypothesisTester(tests1);
         var results = tester.doTests(1000);
@@ -335,6 +435,19 @@ public class Main {
             writer.write(json.toString());
             writer.close();
             System.out.println("Successfully wrote to file " + "results3.json");
+        } catch (IOException e) {
+            System.out.println("An error occurred.");
+            e.printStackTrace();
+        }
+
+        tester.tests = tests4;
+        results = tester.doTests(allMatrices.solutionVectors.size());
+        json = new JSONObject(results);
+        try {
+            FileWriter writer = new FileWriter("results4.json");
+            writer.write(json.toString());
+            writer.close();
+            System.out.println("Successfully wrote to file " + "results4.json");
         } catch (IOException e) {
             System.out.println("An error occurred.");
             e.printStackTrace();

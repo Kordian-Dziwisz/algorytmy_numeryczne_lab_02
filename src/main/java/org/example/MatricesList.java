@@ -23,9 +23,9 @@ public class MatricesList {
     }
 
     public void GenerateConstantBand(int initialSize, int step, int maxSize, int numNonZero){
-        ConstantMatrices.clear();
+        ConstantBandMatrices.clear();
         for (int i = initialSize; i<= maxSize; i += step){
-            ConstantMatrices.add(helper.generateNonZeroBand(i, i, numNonZero));
+            ConstantBandMatrices.add(helper.generateNonZeroBand(i, i, numNonZero));
         }
     }
     public void GenerateTg(int initialSize, int step, int maxSize){
