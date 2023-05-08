@@ -16,10 +16,10 @@ public class Main {
 //        helper.printMatrix(testMatrix);
 
         MatricesList allMatrices = new MatricesList();
-        allMatrices.GenerateTg(3, 2, 300);
-        allMatrices.GenerateSolutionVectors(3, 2, 300);
-        allMatrices.GenerateTw(3, 2, 300, 1);
-        allMatrices.GenerateTwSparse(3, 2, 300, 1);
+        allMatrices.GenerateTg(4, 3, 300);
+        allMatrices.GenerateSolutionVectors(4, 3, 300);
+        allMatrices.GenerateTw(4, 3, 300, 1);
+        allMatrices.GenerateTwSparse(4, 3, 300, 1);
 
 
 
@@ -212,7 +212,7 @@ public class Main {
                 var solvedX = m.GENP(b);
                 long endTime = System.nanoTime();
                 double duration = (endTime - startTime)/ 1000000000.0;
-                results.put(i, duration);
+                results.put(b.length, duration);
             }
             return results;
         }));
@@ -229,7 +229,7 @@ public class Main {
                 var solvedX = m.GENP(b);
                 long endTime = System.nanoTime();
                 double duration = (endTime - startTime)/ 1000000000.0;
-                results.put(i, duration);
+                results.put(b.length, duration);
             }
             return results;
         }));
@@ -246,7 +246,7 @@ public class Main {
                 var solvedX = m.GENP(b);
                 long endTime = System.nanoTime();
                 double duration = (endTime - startTime)/ 1000000000.0;
-                results.put(i, duration);
+                results.put(b.length, duration);
             }
             return results;
         }));
@@ -262,7 +262,7 @@ public class Main {
                 RealVector solution = solver.solve(b);
                 long endTime = System.nanoTime();
                 double duration = (endTime - startTime)/ 1000000000.0;
-                results.put(i, duration);
+                results.put(testMatrix.length, duration);
             }
             return results;
         }));
@@ -278,7 +278,7 @@ public class Main {
                 RealVector solution = solver.solve(b);
                 long endTime = System.nanoTime();
                 double duration = (endTime - startTime)/ 1000000000.0;
-                results.put(i, duration);
+                results.put(testMatrix.length, duration);
             }
             return results;
         }));
@@ -294,7 +294,7 @@ public class Main {
                 RealVector solution = solver.solve(b);
                 long endTime = System.nanoTime();
                 double duration = (endTime - startTime)/ 1000000000.0;
-                results.put(i, duration);
+                results.put(testMatrix.length, duration);
             }
             return results;
         }));
