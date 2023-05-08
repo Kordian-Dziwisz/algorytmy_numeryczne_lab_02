@@ -16,10 +16,13 @@ public class Main {
 //        helper.printMatrix(testMatrix);
 
         MatricesList allMatrices = new MatricesList();
-        allMatrices.GenerateTg(4, 3, 300);
-        allMatrices.GenerateSolutionVectors(4, 3, 300);
-        allMatrices.GenerateTw(4, 3, 300, 1);
-        allMatrices.GenerateTwSparse(4, 3, 300, 1);
+        allMatrices.GenerateTg(12, 3, 300);
+        allMatrices.GenerateSolutionVectors(12, 3, 300);
+        allMatrices.GenerateTw(12, 3, 300, 1);
+        allMatrices.GenerateTwSparse(12, 3, 300, 1);
+        allMatrices.GenerateConstant(12, 3, 300, 9);
+        allMatrices.GenerateConstantBand(12, 3, 300, 9);
+
 
 
 
